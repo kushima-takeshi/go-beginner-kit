@@ -47,3 +47,25 @@ func (r *Record) SetMinutes(minutes int) error {
 	r.Minutes = minutes
 	return nil	
 }
+
+// E5: MemoryReaderなど、Listメソッドを持つ型を受け取る。
+type Reader interface {
+	List() []Record
+}
+
+func TotalFrom(reader Reader) int {
+	total := 0
+	for _, record := range reader.List() {
+		total += record.Minutes
+	}
+	return total
+}
+
+type fakeReader struct{}
+
+func (fakeReader) List() []Record {
+    return []Record{
+        {Title: "Go", Minutes: 20},
+        {Title: "SQL", Minutes: 30},
+    }
+}
